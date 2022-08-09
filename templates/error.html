@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{#公共头部开始#}
+<header>
+    <ul>
+        <li><a href="{% url 'index:index' %}">首页</a></li>
+
+        {#如果登录了#}
+        {% if username %}
+            <li><a href="">{{ username }}</a></li>
+            <li><a href="">注销</a></li>
+        {% else %}
+            <li><a href="{% url 'user:login' %}">登录</a></li>
+            <li><a href="{% url 'user:register' %}">注册</a></li>
+        {% endif %}
+    </ul>
+</header>
+{#公共头部结束#}
+
+<h1>抱歉，系统发生了错误</h1>
+<p style="color: red">{{ msg }}</p>
+</body>
+</html>
