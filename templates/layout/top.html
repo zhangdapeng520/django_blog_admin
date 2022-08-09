@@ -1,0 +1,47 @@
+<!--顶部导航开始-->
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!--左侧链接-->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="{% url 'index:index' %}" class="nav-link">首页</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">联系人</a>
+        </li>
+    </ul>
+
+    <!--右侧链接-->
+    <ul class="navbar-nav ml-auto">
+        {#如果登录了#}
+        {% if username %}
+            <li class="nav-item">
+                <a class="nav-link" href="#" role="button">
+                    {{ username }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-widget="fullscreen" href="{% url 'user:logout' %}" role="button">
+                    注销
+                </a>
+            </li>
+        {% else %}
+            <!--注册-->
+            <li class="nav-item">
+                <a class="nav-link" data-widget="fullscreen" href="{% url 'user:register' %}" role="button">
+                    注册
+                </a>
+            </li>
+
+            <!--登录-->
+            <li class="nav-item">
+                <a class="nav-link" data-widget="fullscreen" href="{% url 'user:login' %}" role="button">
+                    登录
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+<!--顶部导航结束-->
