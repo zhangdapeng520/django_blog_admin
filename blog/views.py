@@ -28,10 +28,41 @@ def blog_list(request):
     try:
         # 默认是第1页
         page = int(request.GET.get("page", 1))
+        context["current_page"] = page
+
         # 每页数量
         size = int(request.GET.get("size", 3))
+        context["size"] = size
+
         # 开始索引
         offset = (page - 1) * size
+
+        # 总数
+        total = blogs.count()
+
+        # 总页数
+        total_page = 0
+        if total % size == 0:
+            total_page = total // size
+        else:
+            total_page = total // size + 1
+
+        # 计算下一页和上一页
+        has_next = True
+        if page >= total_page:
+            has_next = False
+        has_prev = True
+        if page <= 1:
+            has_prev = False
+        context["has_next"] = has_next
+        context["next_page"] = page + 1
+        context["has_prev"] = has_prev
+        context["prev_page"] = page - 1
+
+        # 中间页码
+        middle_pages = list(range(1, total_page + 1))
+        context["middle_pages"] = middle_pages
+
         # 向前端传递
         context['blogs'] = blogs[offset:offset + size]
         return render(request, "blog/list.html", context)

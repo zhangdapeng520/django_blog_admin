@@ -181,17 +181,32 @@
                             {#分页开始#}
                             <div class="card-footer clearfix">
                                 <ul class="pagination pagination-sm m-0 float-right">
-                                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link"
-                                           href="{% url 'blog:list' %}?page=2&size=3">2</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link"
-                                           href="{% url 'blog:list' %}?page=3&size=3">3</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                                    {% if has_prev %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="{% url 'blog:list' %}?page={{ prev_page }}&size={{ size }}">
+                                                上一页</a></li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link" href="#">上一页</a></li>
+                                    {% endif %}
+                                    {#中间页码#}
+                                    {% for middle_page in middle_pages %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="{% url 'blog:list' %}?page={{ middle_page }}&size={{ size }}">
+                                                {{ middle_page }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                    {% if has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="{% url 'blog:list' %}?page={{ next_page }}&size={{ size }}">
+                                                下一页</a></li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link" href="#">下一页</a></li>
+                                    {% endif %}
+
                                 </ul>
                             </div>
                             {#分页结束#}
