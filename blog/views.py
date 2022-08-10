@@ -6,7 +6,10 @@ from .models import Blog
 
 
 def blog_add(request):
-    context = {"username": settings.username}
+    context = {
+        "username": settings.username,
+        "title": "添加博客"
+    }
     if request.method == "POST":
         title = request.POST.get("title")
         content = request.POST.get("content")
@@ -21,7 +24,10 @@ def blog_add(request):
 
 
 def blog_list(request):
-    context = {"username": settings.username}
+    context = {
+        "username": settings.username,
+        "title": "博客管理"
+    }
 
     # 始终能够优先拿到最新的文章
     blogs = Blog.objects.all().order_by("-id")
@@ -110,3 +116,13 @@ def blog_edit(request):
         context['msg'] = "要修改的数据不存在"
         return render(request, "error.html", context)
     return render(request, 'blog/edit.html', context)
+
+
+def blog_analysis(request):
+    context = {
+        "username": settings.username,
+        "title": "文章分析"
+    }
+
+    # 执行修改
+    return render(request, 'blog/analysis.html', context)

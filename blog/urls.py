@@ -12,4 +12,6 @@ urlpatterns = [
     path('edit/', views.blog_edit, name='edit'),
     # 博客新增
     path('add/', views.blog_add, name='add'),
+    # 博客分析
+    path('analysis/', views.blog_analysis, name='analysis'),
 ]
