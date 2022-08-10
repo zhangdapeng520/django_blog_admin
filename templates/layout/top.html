@@ -16,10 +16,10 @@
     <!--右侧链接-->
     <ul class="navbar-nav ml-auto">
         {#如果登录了#}
-        {% if username %}
+        {% if request.user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="#" role="button">
-                    {{ username }}
+                    {{ request.user }}
                 </a>
             </li>
             <li class="nav-item">

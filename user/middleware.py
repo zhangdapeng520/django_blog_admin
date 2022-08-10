@@ -1,19 +1,19 @@
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.deprecation import MiddlewareMixin
-from blog_admin import settings
-
+import re
 
 class PermissionMiddleware(MiddlewareMixin):
     def process_request(self, request):
         # 获取当前路径
-        current_path = request.path
-        print("当前路径", current_path)
+        curr_path = request.path
 
-        # 登录，注册，注销，都不用校验
-        if current_path in ['/user/login/', '/user/register/']:
-            return
+        # 白名单处理
+        white_list = ["/user/register/", "/user/login/"]
+        for w in white_list:
+            if re.search(w, curr_path):
+                return None  # 通过
 
-        # 登录校验
-        if not settings.username:
-            return redirect(reverse('user:login'))
+        # 验证是否登陆
+        if not request.user.is_authenticated:
+            return redirect(reverse("user:login"))

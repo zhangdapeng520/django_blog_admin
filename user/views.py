@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from blog_admin import settings
+from django.contrib.auth import authenticate, login, logout
 
 
 def register(request):
@@ -39,7 +40,7 @@ def register(request):
     return render(request, "user/register.html", context)
 
 
-def login(request):
+def login_view(request):
     """
     登录视图函数
     :param request:
@@ -56,11 +57,16 @@ def login(request):
         # 查有没有用户
         try:
             user = User.objects.get(username=username)
-            if user is not None and user.check_password(password):
+            if user is not None:
+                # 校验用户名和密码
+                user = authenticate(username=username, password=password)
+
                 # 登录成功以后，跳转到首页
                 settings.username = username
                 settings.user_id = user.id
-                return redirect(reverse("index:index"))
+                if user.is_active:
+                    login(request, user)  # 进行登陆操作，完成session的设置
+                    return redirect(reverse("index:index"))
             context["error"] = "用户名或密码错误"
         except:
             context["error"] = "该用户不存在"
@@ -69,12 +75,11 @@ def login(request):
     return render(request, "user/login.html", context)
 
 
-def logout(request):
+def logout_view(request):
     """
     注销视图函数
     :param request:
     :return:
     """
-    settings.username = ""
-    settings.user_id = 1
+    logout(request)
     return redirect(reverse('user:login'))
