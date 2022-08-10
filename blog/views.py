@@ -123,6 +123,18 @@ def blog_analysis(request):
         "username": settings.username,
         "title": "文章分析"
     }
+    blogs = Blog.objects.all().order_by('-good_num')[:6]
+
+    # 所有文章的名字
+    # x = [blog.title[:5] for blog in blogs]
+    x = [blog.id for blog in blogs]
+    # x = "$$$".join(x)
+    # print(x, type(x))
+    context["x"] = x
+
+    # 每篇文章的点赞数量
+    y = [blog.good_num for blog in blogs]
+    context["y"] = y
 
     # 执行修改
     return render(request, 'blog/analysis.html', context)

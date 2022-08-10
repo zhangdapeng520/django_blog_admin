@@ -17,6 +17,15 @@ class Blog(models.Model):
     # 内容
     content = models.TextField(validators=[content_validator])  # text
 
+    # 点赞数量
+    good_num = models.IntegerField(default=0)
+
+    # 踩数量
+    bad_num = models.IntegerField(default=0)
+
+    # 阅读数量
+    view_num = models.IntegerField(default=0)
+
     # 发布时间
     date_published = models.DateTimeField(default=timezone.now)  # datetime
 
